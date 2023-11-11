@@ -1,21 +1,76 @@
 body {
     font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 10px;
+    padding: 10px;
     display: flex;
+    flex-direction: column; /* Elemente vertikal anordnen */
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #c7c7c7;
 }
 
+/* Container für Username und Button */
+.username-container {
+    position: sticky;
+    top: 0;
+    background-color: #c7c7c7;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; /* Mehr Abstand zum "Chat"-Titel */
+    z-index: 1000; /* Stellen Sie sicher, dass es über anderen Elementen liegt */
+}
+
+/* Stil für das Benutzernamen-Eingabefeld */
+.username-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #3a3a3a;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+/* Stil für den Beitreten-Button */
+.username-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #545454;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.username-submit:hover {
+    background-color: #e2e3e2;
+}
+
+/* Stil für den Chat-Titel */
+.chat-title {
+    position: sticky;
+    top: 50px; /* Höhe des username-container berücksichtigen */
+    background-color: #c7c7c7;
+    padding: 10px 0;
+    margin: 0;
+    text-align: center;
+    border-bottom: 1px solid #3a3a3a;
+    margin-bottom: 20px; /* Mehr Abstand zum Nachrichten-Eingabebereich */
+    z-index: 1000; /* Stellen Sie sicher, dass es über anderen Elementen liegt */
+    margin-top: 30px; /* Erhöht den Abstand nach oben */
+}
+
 /* Stil für den Chat-Container */
 .chat-container {
     width: 80%;
     max-width: 600px;
-    margin: auto;
+    margin: 80px auto 0; /* Abstand oben für Username und Titel */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #999999;
+    overflow-y: auto; /* Scrollbar für Chat-Nachrichten */
+    margin-top: 10px; /* Verringern Sie den oberen Rand, um den Container nach oben zu verschieben */
+    border-radius: 15px; /* Ecken jeder Nachricht abrunden */
 }
 
 /* Stil für die Chat-Nachrichtenliste */
@@ -27,6 +82,8 @@ body {
     list-style-type: none;
     display: block;
     clear: both;
+    margin-right: 10px; 
+    max-width: 500px; /* Maximale Breite der Nachrichtenbox */
 }
 
 /* Stil für das Chat-Formular */
@@ -59,44 +116,13 @@ body {
     background-color: #e2e3e2;
 }
 
-/* Stil für das Benutzernamen-Eingabefeld und den Beitreten-Button */
-.username-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.username-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #3a3a3a;
-    border-radius: 20px;
-    margin-right: 10px;
-}
-
-.username-submit {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: #545454;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-.username-submit:hover {
-    background-color: #e2e3e2;
-}
-
-/* Stil für Name und Zeitstempel 
+/* Stil für Name und Zeitstempel (falls benötigt)
 .name-timestamp {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
 }
-*/
 
 .name {
     font-size: 0.75rem;
@@ -105,3 +131,5 @@ body {
 .timestamp {
     font-size: 0.75rem;
 }
+*/
+
