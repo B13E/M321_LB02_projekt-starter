@@ -6,9 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Chat Program</title>
     <link rel="stylesheet" href="/style.css">
-    <script src="/script.js"></script>
 </head>
+
 <body>
-    <h1>Hello World</h1>
+    <div id="username-container">
+        <input type="text" id="username-input" placeholder="Benutzername eingeben" />
+        <button id="username-submit">Beitreten</button>
+    </div>
+    
+    <h1>Live Chat</h1>
+    <div id="chat-container">
+        <ul id="chat-messages"></ul>
+        <form id="chat-form">
+            <input type="text" id="message-input" placeholder="Schreibe eine Nachricht..." />
+            <button type="submit">Senden</button>
+        </form>
+    </div>
+    <script src="/script.js"></script>
 </body>
 </html>

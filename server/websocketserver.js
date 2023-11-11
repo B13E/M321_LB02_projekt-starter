@@ -13,9 +13,16 @@ const onConnection = (ws) => {
 };
 
 // If a new message is received, the onMessage function is called
+
 const onMessage = (ws, message) => {
   console.log("Message received: " + message);
-  ws.send("Hello, you sent -> " + message);
+  // Verteilen der Nachricht an alle verbundenen Clients
+  websocketServer.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
 };
+
 
 module.exports = { initializeWebsocketServer };
