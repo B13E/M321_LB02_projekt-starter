@@ -20,4 +20,6 @@ docker exec -it mariadb bash
 mysql -u root -p
 ```
 OR
-- Go to http://localhost:8080
+// Go to http://localhost:8080
+
+phpMyAdmin http://localhost:9200

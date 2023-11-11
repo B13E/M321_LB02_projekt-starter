@@ -10,8 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   socket.addEventListener("message", (event) => {
-    console.log(`Received message: ${event.data}`);
-    addMessageToList(event.data, 'from-friend');
+    // Überprüfen, ob die eingehende Nachricht ein Blob ist
+    if (event.data instanceof Blob) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        addMessageToList(reader.result, 'from-friend');
+      };
+      reader.readAsText(event.data);
+    } else {
+      // Direkt hinzufügen, wenn es kein Blob ist
+      addMessageToList(event.data, 'from-friend');
+    }
   });
 
   socket.addEventListener("close", (event) => {
@@ -26,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     username = document.getElementById('username-input').value.trim();
     if (username) {
       document.getElementById('username-input').value = '';
-      // Weitere Logik für das Beitreten zum Chat, falls erforderlich
     }
   });
 
@@ -35,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = messageInput.value.trim();
     if (message && username) {
       const messageWithUsername = `${username}: ${message}`;
-      socket.send(messageWithUsername); // Sendet die Nachricht mit Benutzernamen
+      socket.send(messageWithUsername);
       addMessageToList(messageWithUsername, 'from-user');
       messageInput.value = '';
     }

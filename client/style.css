@@ -9,7 +9,8 @@ body {
     background-color: #c7c7c7;
 }
 
-#chat-container {
+/* Stil für den Chat-Container */
+.chat-container {
     width: 80%;
     max-width: 600px;
     margin: auto;
@@ -17,13 +18,8 @@ body {
     background-color: #999999;
 }
 
-#chat-window {
-    height: 400px;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-#chat-messages li {
+/* Stil für die Chat-Nachrichtenliste */
+.chat-messages li {
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 20px;
@@ -33,12 +29,14 @@ body {
     clear: both;
 }
 
-#chat-form {
+/* Stil für das Chat-Formular */
+.chat-form {
     padding: 10px;
     display: flex;
 }
 
-#message-input {
+/* Stil für das Eingabefeld für Nachrichten */
+.message-input {
     flex-grow: 1;
     padding: 10px;
     border: 1px solid #3a3a3a;
@@ -46,7 +44,8 @@ body {
     margin-right: 10px;
 }
 
-#chat-form button {
+/* Stil für den Senden-Button */
+.send-button {
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
@@ -56,16 +55,48 @@ body {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-#chat-form button:hover {
+.send-button:hover {
     background-color: #e2e3e2;
 }
 
+/* Stil für das Benutzernamen-Eingabefeld und den Beitreten-Button */
+.username-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.username-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #3a3a3a;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.username-submit {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #545454;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.username-submit:hover {
+    background-color: #e2e3e2;
+}
+
+/* Stil für Name und Zeitstempel 
 .name-timestamp {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
 }
+*/
 
 .name {
     font-size: 0.75rem;

@@ -3,11 +3,11 @@ const { executeSQL } = require('./database');
 const initializeAPI = (app) => {
   app.get("/api/hello", hello);
 
-  // Neuer Endpunkt zum Speichern von Nachrichten
   app.post("/api/message", async (req, res) => {
     try {
       const { userId, message } = req.body;
-      await executeSQL(`INSERT INTO messages (user_id, message) VALUES (${userId}, '${message}')`);
+      const query = 'INSERT INTO messages (user_id, message) VALUES (?, ?)';
+      await executeSQL(query, [userId, message]);
       res.status(200).send("Nachricht gespeichert");
     } catch (err) {
       console.log(err);

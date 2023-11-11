@@ -11,11 +11,11 @@ const initializeMariaDB = () => {
   });
 };
 
-const executeSQL = async (query) => {
+const executeSQL = async (query, params) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    const res = await conn.query(query);
+    const res = await conn.query(query, params);
     return res;
   } catch (err) {
     console.log(err);
@@ -40,5 +40,6 @@ const initializeDBSchema = async () => {
   );`;
   await executeSQL(messageTableQuery);
 };
+
 
 module.exports = { executeSQL, initializeMariaDB, initializeDBSchema };
