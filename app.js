@@ -1,3 +1,4 @@
+// Alles Original Code
 const express = require("express");
 const http = require("http");
 var livereload = require("livereload");
@@ -12,7 +13,9 @@ const {
 
 // Create the express server
 const app = express();
+app.use(express.json());
 const server = http.createServer(app);
+
 
 // create a livereload server
 const env = process.env.NODE_ENV || "development";
@@ -35,8 +38,10 @@ app.get("/", (req, res) => {
 });
 // Initialize the websocket server
 initializeWebsocketServer(server);
+
 // Initialize the REST api
 initializeAPI(app);
+
 
 // Allowing top-level await
 (async function () {

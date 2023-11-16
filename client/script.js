@@ -2,7 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatForm = document.getElementById('chat-form');
   const messageInput = document.getElementById('message-input');
   const messagesList = document.getElementById('chat-messages');
+  const usernameInput = document.getElementById('username-input');
+  const usernameSubmit = document.getElementById('username-submit');
   const socket = new WebSocket("ws://localhost:3000");
+
   let username = '';
 
   socket.addEventListener("open", (event) => {
@@ -10,16 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   socket.addEventListener("message", (event) => {
-    // Überprüfen, ob die eingehende Nachricht ein Blob ist
-    if (event.data instanceof Blob) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        addMessageToList(reader.result, 'from-friend');
-      };
-      reader.readAsText(event.data);
+    const data = JSON.parse(event.data);
+    if (data.type === 'activeParticipants') {
+      updateActiveParticipantsList(data.data);
     } else {
-      // Direkt hinzufügen, wenn es kein Blob ist
-      addMessageToList(event.data, 'from-friend');
+      addMessageToList(`${data.username}: ${data.message}`, 'from-friend');
     }
   });
 
@@ -31,21 +29,32 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("WebSocket error:", event);
   });
 
-  document.getElementById('username-submit').addEventListener('click', () => {
-    username = document.getElementById('username-input').value.trim();
+  usernameSubmit.addEventListener('click', () => {
+    username = usernameInput.value.trim();
     if (username) {
-      document.getElementById('username-input').value = '';
+      socket.send(JSON.stringify({ type: 'setUsername', username: username }));
+      usernameInput.value = '';
+      document.getElementById('username-container').style.display = 'none'; // Verstecke das Eingabefeld nach der Eingabe
     }
   });
 
-  chatForm.addEventListener('submit', function(e) {
-    e.preventDefault();
+  chatForm.addEventListener('submit', function(event) {
+    event.preventDefault();
     const message = messageInput.value.trim();
     if (message && username) {
-      const messageWithUsername = `${username}: ${message}`;
-      socket.send(messageWithUsername);
-      addMessageToList(messageWithUsername, 'from-user');
+      const messageWithUsername = { username: username, message: message };
+      socket.send(JSON.stringify(messageWithUsername));
+      addMessageToList(`${username}: ${message}`, 'from-user');
       messageInput.value = '';
+
+      // Nachricht an die API senden
+      fetch('/api/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messageWithUsername)
+      });
     }
   });
 
@@ -55,73 +64,35 @@ document.addEventListener("DOMContentLoaded", () => {
     messageElement.textContent = msg;
     messagesList.appendChild(messageElement);
     messageElement.scrollIntoView({ behavior: 'smooth' });
-  }
-});
-
-/*
-document.addEventListener("DOMContentLoaded", () => {
-  const chatForm = document.getElementById('chat-form');
-  const messageInput = document.getElementById('message-input');
-  const messagesList = document.getElementById('chat-messages');
-  const username = 'YourUsername'; // Setzen Sie hier den Benutzernamen des lokalen Benutzers
-
-  const socket = new WebSocket("ws://localhost:3000");
-
-  socket.addEventListener("open", (event) => {
-    console.log("WebSocket connected!");
-  });
-
-  socket.addEventListener("message", (event) => {
-    const data = JSON.parse(event.data);
-    // Überprüft, ob die empfangene Nachricht vom Server vom aktuellen Benutzer stammt
-    const className = data.username === username ? 'from-user' : 'from-friend';
-    addMessageToList(data.message, className, data.username);
-  });
-
-  socket.addEventListener("close", (event) => {
-    console.log("WebSocket closed.");
-  });
-
-  socket.addEventListener("error", (event) => {
-    console.error("WebSocket error:", event);
-  });
-
-  function addMessageToList(msg, className, msgUsername) {
-    const messageElement = document.createElement('li');
-    messageElement.classList.add(className);
-
-    const nameTimestampDiv = document.createElement('div');
-    nameTimestampDiv.classList.add('name-timestamp');
-
-    const nameSpan = document.createElement('span');
-    nameSpan.classList.add('name');
-    nameSpan.textContent = msgUsername || username;
-
-    const timestampSpan = document.createElement('span');
-    timestampSpan.classList.add('timestamp');
-    timestampSpan.textContent = new Date().toLocaleTimeString();
-
-    nameTimestampDiv.appendChild(nameSpan);
-    nameTimestampDiv.appendChild(timestampSpan);
-
-    messageElement.appendChild(nameTimestampDiv);
-    messageElement.appendChild(document.createTextNode(msg));
-    messagesList.appendChild(messageElement);
-
-    messageElement.scrollIntoView({ behavior: 'smooth' });
+    messagesList.scrollTop = messagesList.scrollHeight;
   }
 
-  chatForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const message = messageInput.value.trim();
-
-    if(message) {
-      const data = JSON.stringify({ username, message });
-      socket.send(data);
-
-      messageInput.value = ''; // Setzt das Eingabefeld zurück
+  function changeUsername(newUsername) {
+    username = newUsername.trim();
+    if (username) {
+      socket.send(JSON.stringify({ type: 'changeUsername', newUsername: username }));
     }
-  });
+  }
+  
+  function updateActiveParticipantsList(activeParticipants) {
+    const activeParticipantsList = document.getElementById('active-participants');
+    activeParticipantsList.innerHTML = '';
+    activeParticipants.forEach((participant) => {
+      const listItem = document.createElement('li');
+      listItem.textContent = participant;
+      activeParticipantsList.appendChild(listItem);
+    });
+  }
 });
 
-*/
+usernameSubmit.addEventListener('click', () => {
+  username = usernameInput.value.trim();
+  if (username) {
+    socket.send(JSON.stringify({ type: 'setUsername', username: username }));
+  }
+});
+
+function changeUsername(newUsername) {
+  username = newUsername.trim();
+  socket.send(JSON.stringify({ type: 'setUsername', username: username }));
+}

@@ -1,7 +1,10 @@
 const { executeSQL } = require('./database');
 
 const initializeAPI = (app) => {
-  app.get("/api/hello", hello);
+
+app.get("/api/hello", (req, res) => {
+  res.send("Hello World!");
+});
 
   app.post("/api/message", async (req, res) => {
     try {
@@ -16,22 +19,4 @@ const initializeAPI = (app) => {
   });
 };
 
-const hello = (req, res) => {
-  res.send("Hello World!");
-};
-
 module.exports = { initializeAPI };
-
-
-/*
-const initializeAPI = (app) => {
-  // default REST api endpoint
-  app.get("/api/hello", hello);
-};
-
-const hello = (req, res) => {
-  res.send("Hello World!");
-};
-
-module.exports = { initializeAPI };
-*/

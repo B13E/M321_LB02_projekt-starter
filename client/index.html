@@ -1,19 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html> <!--Original-->
+
+<html lang="en"> <!--Original-->
+
+<head> <!--Original-->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatting</title>
+    <title>Live Chatting</title>
     <link rel="stylesheet" href="/style.css">
+    <script src="/script.js"></script>
 </head>
 
-<body>
+<body> 
+    <div>
+        <h3>Client</h3>
+        <ul id="active-participants" class="active-participants"></ul>
+    </div>
     <div id="username-container" class="username-container">
         <input type="text" id="username-input" class="username-input" placeholder="Neuer Name eingeben ..."/>
         <button id="username-submit" class="username-submit">Beitreten</button>
     </div>
-    
+    <div id="change-username-container" style="display: none;">
+        <input type="text" id="new-username-input" placeholder="Neuer Benutzername"/>
+        <button id="change-username-button">Namen ändern</button>
+      </div>
     <h1 class="chat-title">Chat ID: 146352</h1>
     <div id="chat-container" class="chat-container">
         <ul id="chat-messages" class="chat-messages"></ul>
@@ -22,6 +32,5 @@
             <button type="submit" class="send-button">Senden</button>
         </form>
     </div>
-    <script src="/script.js"></script>
 </body>
 </html>
