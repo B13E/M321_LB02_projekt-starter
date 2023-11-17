@@ -27,5 +27,18 @@ services:
     ports:
       - 9200:80
 
+  nodeapp:
+    image: lizsalatmon/321-project-server:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_NAME=mychat
+      - DB_HOST=mariadb
+      - DB_USER=mychat
+      - DB_PASSWORD=mychatpassword
+    depends_on:
+      - mariadb
+    restart: always
+
 volumes:
   m321_project_mariadb:

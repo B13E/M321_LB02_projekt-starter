@@ -1,7 +1,5 @@
+let pool = null; 
 
-let pool = null; // Original Code
-
-// Original Code
 const initializeMariaDB = () => {
   const mariadb = require("mariadb");
   pool = mariadb.createPool({
@@ -13,9 +11,8 @@ const initializeMariaDB = () => {
   });
 };
 
-// Original Code nur params in den () ist neu  
 const executeSQL = async (query, params) => {
-  let conn; // Später verbindung zur datenbank speichern
+  let conn; 
   try {
     conn = await pool.getConnection();
     const res = await conn.query(query, params);
@@ -27,7 +24,6 @@ const executeSQL = async (query, params) => {
   }
 };
 
-// Original Code // Benutzer die Beitreten in der 
 const initializeDBSchema = async () => {
   const userTableQuery = `CREATE TABLE IF NOT EXISTS users (
     id INT NOT NULL AUTO_INCREMENT,
@@ -35,10 +31,8 @@ const initializeDBSchema = async () => {
     PRIMARY KEY (id)
   );`;
 
-  // Original Code
   await executeSQL(userTableQuery);
   
-    // Original Code
   const messageTableQuery = `CREATE TABLE IF NOT EXISTS messages (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -47,7 +41,6 @@ const initializeDBSchema = async () => {
     FOREIGN KEY (user_id) REFERENCES users(id)
   );`;
 
-  // Original Code
   await executeSQL(messageTableQuery);
 };
 const findOrCreateUser = async (username) => {
@@ -69,5 +62,4 @@ const saveMessage = async (username, message) => {
   await executeSQL(saveMessageQuery, [user.id, message]);
 };
 
-// Original Code
-module.exports = { executeSQL, initializeMariaDB, initializeDBSchema };
+module.exports = { executeSQL, initializeMariaDB, initializeDBSchema, saveMessage };

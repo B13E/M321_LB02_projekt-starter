@@ -1,40 +1,48 @@
-const WebSocket = require("ws"); // Original Code
+const WebSocket = require("ws"); 
+const { saveMessage } = require("./database");
 
 let websocketServer; 
-const connectedClients = new Set();
+const connectedClients = new Set(); 
 
 const initializeWebsocketServer = (server) => {
   websocketServer = new WebSocket.Server({ server });
   websocketServer.on("connection", onConnection);
 };
 
+const onConnection = (ws) => { 
+  connectedClients.add(ws); 
+  updateClientList(); 
 
-// Original Code  
-const onConnection = (ws) => { // Neue verbindung mit websocket um den neuen Client zu erreichen
-  connectedClients.add(ws); // Liste aller Clients
-  updateClientList(); // Liste aller Clients
-
-  ws.on('close', () => { // Liste aller Clients
-    connectedClients.delete(ws); // Liste aller Clients
-    updateClientList(); // Liste aller Clients
+  ws.on('close', () => { 
+    connectedClients.delete(ws); 
+    updateClientList(); 
     console.log("Client disconnected");
   });
   
   console.log("New websocket connection");
-  ws.on("message", (message) => onMessage(ws, message)); // Event Listener für eingehende Nachricht, nachher wird onMessage aufgerufen 
+  ws.on("message", (message) => onMessage(ws, message)); 
 };
 
-// Nachricht erhalten und in der Console Ausgegeben
 const onMessage = (ws, message) => {
   const data = JSON.parse(message);
 
+  const onMessage = async (ws, message) => {
+    const data = JSON.parse(message);
+  
+    if (data.type === 'newMessage') {
+      try {
+        await saveMessage(data.username, data.message);
+      } catch (error) {
+        console.error("Fehler beim Speichern der Nachricht: ", error);
+        ws.send(JSON.stringify({ type: 'error', message: 'Nachricht konnte nicht gespeichert werden.' }));
+      }
+    }
+  };
+
   if (data.type === 'setUsername' || data.type === 'changeUsername') {
-    // Setzen oder Ändern des Benutzernamens
     ws.username = data.username || data.newUsername;
     updateClientList();
-    // Informieren Sie alle Clients über die Namensänderung oder das Setzen des Namens
   } else {
-    // Verteilen der Nachricht an alle verbundenen Clients
     websocketServer.clients.forEach(client => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify(data));
@@ -43,7 +51,6 @@ const onMessage = (ws, message) => {
   }
 };
  
-    // Informieren Sie alle Clients über die Namensänderung
 const updateClientList = () => {
   const activeParticipants = Array.from(connectedClients).map(client => client.username || 'Anonym');
 
@@ -54,5 +61,4 @@ const updateClientList = () => {
   });
 };
 
-// Original Code
 module.exports = { initializeWebsocketServer };

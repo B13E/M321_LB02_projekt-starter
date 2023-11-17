@@ -3,7 +3,7 @@ const { executeSQL } = require('./database');
 const initializeAPI = (app) => {
 
 app.get("/api/hello", (req, res) => {
-  res.send("Hello World!");
+  res.send("Server antwort!");
 });
 
   app.post("/api/message", async (req, res) => {

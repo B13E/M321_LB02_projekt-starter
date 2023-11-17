@@ -15,7 +15,6 @@ h3 {
     margin-left: 10px;
 }
 
-/* Container für Username und Button */
 .username-container {
     position: sticky;
     top: 0;
@@ -25,10 +24,9 @@ h3 {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px; 
-    z-index: 1000; /* Das es über dem anderem Element ist */
+    z-index: 1000; 
 }
 
-/* Stil für das Benutzernamen-Eingabefeld */
 .username-input {
     flex-grow: 1;
     padding: 10px;
@@ -37,7 +35,6 @@ h3 {
     margin-right: 10px;
 }
 
-/* Stil für den Beitreten-Button */
 .username-submit {
     padding: 10px 20px;
     border: none;
@@ -45,14 +42,13 @@ h3 {
     background-color: rgb(206, 206, 206); 
     color: rgb(0, 0, 0); 
     cursor: pointer;
-    box-shadow: 0 2px 2px rgba(154, 154, 154, 0.2); /* */
+    box-shadow: 0 2px 2px rgba(154, 154, 154, 0.2); 
 }
 
 .username-submit:hover {
     background-color: #9a9a9a;
 }
 
-/* Stil für den Chat-Titel */
 .chat-title {
     position: sticky;
     top: 50px; 
@@ -66,19 +62,15 @@ h3 {
     margin-top: 30px; 
 }
 
-/* Stil für den Chat-Container (Username und Titel) */
 .chat-container {
     width: 80%;
     max-width: 600px;
     margin: 80px auto 0; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #999999;
-    overflow-y: auto; /* Scrollen im Chat */
     margin-top: 10px; 
-    border-radius: 15px; /* Ecken jeder Nachricht abrunden */
 }
 
-/* Stil für die Chat-Nachrichtenliste */
 .chat-messages li {
     padding: 10px;
     margin-bottom: 20px;
@@ -88,16 +80,14 @@ h3 {
     display: block;
     clear: both;
     margin-right: 10px; 
-    max-width: 500px; /* max. breite der Nachrichtenbox */
+    max-width: 500px; 
 }
 
-/* Stil für das Chat-Formular */
 .chat-form {
     padding: 10px;
     display: flex;
 }
 
-/* Stil für das Eingabefeld für Nachrichten */
 .message-input {
     flex-grow: 1;
     padding: 10px;
@@ -106,7 +96,6 @@ h3 {
     margin-right: 10px;
 }
 
-/* Stil für den Senden-Button */
 .send-button {
     padding: 10px 20px;
     border: none;
@@ -120,4 +109,3 @@ h3 {
 .send-button:hover {
     background-color: #e2e3e2;
 }
-
